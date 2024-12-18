@@ -10,8 +10,13 @@ from homeassistant.helpers.entity import Entity
 from homeassistant.util import Throttle
 
 from . import DOMAIN, garbage_types
-from .utils import (check_settings, find_id, find_id_from_lat_lon,
-                    get_tommeplan_page, parse_tomme_kalender)
+from .utils import (
+    check_settings,
+    find_id,
+    find_id_from_lat_lon,
+    get_tommeplan_page,
+    parse_tomme_kalender,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -156,7 +161,7 @@ class AvfallSor(Entity):
             "bio": "mdi:compost",
             "mixed": "mdi:trash-can",
             "metal": "mdi:bottle-wine",
-            "plastic": "mdi:recycle-variant"
+            "plastic": "mdi:recycle-variant",
         }
         return icons[self._garbage_type]
 
@@ -178,7 +183,7 @@ class AvfallSor(Entity):
             "next garbage pickup": self.next_garbage_pickup,
             ATTR_ATTRIBUTION: "avfallsør",
             "last update": self.data._last_update,
-            "garbage_type": self._garbage_type
+            "garbage_type": self._garbage_type,
         }
 
     @property
