@@ -11,8 +11,7 @@ from homeassistant.util import Throttle
 
 from . import DOMAIN, garbage_types
 from .utils import (check_settings, find_id, find_id_from_lat_lon,
-                    find_next_garbage_pickup, get_tommeplan_page,
-                    parse_tomme_kalender)
+                    get_tommeplan_page, parse_tomme_kalender)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -147,20 +146,7 @@ class AvfallSor(Entity):
     @property
     def next_garbage_pickup(self):
         """Get the date of the next picked for that garbage type."""
-        if self._garbage_type == "paper":
-            return find_next_garbage_pickup(self.data._data.get("paper"))
-
-        elif self._garbage_type == "bio":
-            return find_next_garbage_pickup(self.data._data.get("bio"))
-
-        elif self._garbage_type == "mixed":
-            return find_next_garbage_pickup(self.data._data.get("rest"))
-
-        elif self._garbage_type == "metal":
-            return find_next_garbage_pickup(self.data._data.get("metal"))
-
-        elif self._garbage_type == "plastic":
-            return find_next_garbage_pickup(self.data._data.get("plastic"))
+        return self.data._data.get(self._garbage_type)
 
     @property
     def icon(self) -> str:

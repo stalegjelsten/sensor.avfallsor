@@ -21,6 +21,15 @@ weekday_map = {
     "søndager": 6   # Sunday
 }
 
+gb_map = {
+    "mixed": "Restavfall",
+    "bio": "Matavfall",
+    "paper": "Papp og papir",
+    "plastic": "Plastemballasje",
+    "metal": "Glass- og metallemballasje",
+}
+gb_map.update({v: k for k, v in gb_map.items()})
+
 def get_next_weekdaydate(weekday_name):
 
     # Convert the input string to a weekday index
@@ -60,28 +69,7 @@ def check_settings(config, hass):
     raise vol.Invalid("Missing settings to setup the sensor.")
 
 
-def find_next_garbage_pickup(dates):
-    if dates is None:
-        return
-
-    today = datetime.now().date()
-    for i in sorted(dates):
-        if i.date() >= today:
-            return i
-
-gb_map = {
-    "rest": "Restavfall",
-    "bio": "Matavfall",
-    "paper": "Papp og papir",
-    "plastic": "Plastemballasje",
-    "metal": "Glass- og metallemballasje",
-}
-gb_map.update({v: k for k, v in gb_map.items()})
-
-
 def parse_tomme_kalender(text):
-    tomme_days = defaultdict(list)
-
     soup = BeautifulSoup(text, "html.parser")
 
 
@@ -103,8 +91,8 @@ def parse_tomme_kalender(text):
 
     additional_waste_classes = {
         # These values are the class names of the divs on Avfallsors website
-        "Restavfall": "info-boxes-box info-boxes-box--9011",
-        "Matavfall": "info-boxes-box info-boxes-box--1111"
+        gb_map["mixed"]: "info-boxes-box info-boxes-box--9011",
+        gb_map["bio"]: "info-boxes-box info-boxes-box--1111"
     }
 
 
@@ -124,11 +112,13 @@ def parse_tomme_kalender(text):
         else:
             _LOGGER.debug(f"Div with class {waste_class} for {waste_type} not found on avfallsor.no.")
 
+    tomme_days = {}
+
     # Loop over the first 5 keys in gb_map
     for waste_type in list(gb_map)[:5]:
         # Get the date of next pick-up day if it exists
         date = neste_hentedager[gb_map[waste_type]] if gb_map[waste_type] in neste_hentedager else None
-        tomme_days[waste_type] = [date]
+        tomme_days[waste_type] = date
 
     # _LOGGER.debug(tomme_days)
 
@@ -138,7 +128,7 @@ def parse_tomme_kalender(text):
 def check_tomme_kalender(data):
     tomme_kalender = parse_tomme_kalender(data)
 
-    if not any(len(i) > 1 for i in tomme_kalender.values()):
+    if not any(isinstance(i, datetime) for i in tomme_kalender.values()):
         _LOGGER.debug("No tømmekalender is available")
         return False
     return True
