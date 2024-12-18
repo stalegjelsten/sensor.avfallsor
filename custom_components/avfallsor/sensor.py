@@ -151,21 +151,14 @@ class AvfallSor(Entity):
     @property
     def icon(self) -> str:
         """Shows the correct icon for container."""
-        # todo fix icons.
-        if self._garbage_type == "paper":
-            return "mdi:trash-can"
-
-        elif self._garbage_type == "bio":
-            return "mdi:trash-can"
-
-        elif self._garbage_type == "mixed":
-            return "mdi:trash-can"
-
-        elif self._garbage_type == "metal":
-            return "mdi:trash-can"
-
-        elif self._garbage_type == "plastic":
-            return "mdi:trash-can"
+        icons = {
+            "paper": "mdi:note-text-outline",
+            "bio": "mdi:compost",
+            "mixed": "mdi:trash-can",
+            "metal": "mdi:bottle-wine",
+            "plastic": "mdi:recycle-variant"
+        }
+        return icons[self._garbage_type]
 
     @property
     def unique_id(self) -> str:
