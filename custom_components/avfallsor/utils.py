@@ -86,14 +86,11 @@ def parse_tomme_kalender(text):
 
         if description_input and dtstart_input:
             description = description_input.get("value")
-            
-            # Skip rest of loop cycle if this is not the first pickup date for
-            # this waste type
-            if neste_hentedager.get(description) != None:
-                continue
+            date = datetime.strptime(dtstart_input.get("value"), "%Y-%m-%d")
 
-            dtstart = dtstart_input.get("value")
-            neste_hentedager[description] = datetime.strptime(dtstart, "%Y-%m-%d")
+            # Save the pickup date if it's the earliest date
+            if date < neste_hentedager[description]:
+                neste_hentedager[description] = date
 
     additional_waste_classes = {
         # These values are the class names of the divs on Avfallsors website
