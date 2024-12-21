@@ -88,6 +88,12 @@ def parse_tomme_kalender(text):
             description = description_input.get("value")
             date = datetime.strptime(dtstart_input.get("value"), "%Y-%m-%d")
 
+            # If this is the first time we come across this garbage type
+            # Set the pickup date to this pickup date
+            if neste_hentedager.get(description) == None:
+                neste_hentedager[description] = date
+                continue
+
             # Save the pickup date if it's the earliest date
             if date < neste_hentedager[description]:
                 neste_hentedager[description] = date
