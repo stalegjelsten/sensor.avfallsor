@@ -2,12 +2,13 @@ import logging
 
 from homeassistant import config_entries
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import Config, HomeAssistant
+from homeassistant.core import HomeAssistant
+from homeassistant.core_config import Config
 
 DOMAIN = "avfallsor"
 NAME = DOMAIN
-VERSION = "0.0.5"
-ISSUEURL = "https://github.com/hellowlol/sensor.avfallsor/issues"
+VERSION = "0.0.7"
+ISSUEURL = "https://github.com/stalegjelsten/sensor.avfallsor/issues"
 
 STARTUP = """
 -------------------------------------------------------------------
@@ -49,9 +50,7 @@ async def async_setup(hass, config):
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
     """Set up avfallsor as config entry."""
-    hass.async_create_task(
-        hass.config_entries.async_forward_entry_setup(config_entry, "sensor")
-    )
+    await hass.config_entries.async_forward_entry_setups(config_entry, ["sensor"])
     return True
 
 
