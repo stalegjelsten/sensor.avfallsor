@@ -1,26 +1,14 @@
 # sensor.avfallsor
+This is my fork of [Hellowlol's](https://github.com/custom-components/sensor.avfallsor/commits?author=Hellowlol) [Avfall Sør sensor](https://github.com/custom-components/sensor.avfallsor).
+
 Simple sensor for avfallsor (garbage pickup)
 
 
-[![GitHub Release][releases-shield]][releases]
-[![GitHub Activity][commits-shield]][commits]
-[![License][license-shield]](LICENSE.md)
-[![hacs][hacsbadge]][hacs]
-[![Discord][discord-shield]][discord]
-[![Community Forum][forum-shield]][forum]
-
 
 ## Installation
-Install using hacs or manual install
+Install using hacs.
 
-### Manual install
-1. Using the tool of choice open the directory (folder) for your HA configuration (where you find `configuration.yaml`).
-2. If you do not have a `custom_components` directory (folder) there, you need to create it.
-3. In the `custom_components` directory (folder) create a new folder called `avfallsor`.
-4. Download _all_ the files from the `custom_components/avfallsor/` directory (folder) in this repository.
-5. Place the files you downloaded in the new directory (folder) you created.
-6. Restart Home Assistant
-
+Add this repo as a custom repository in HACS and search for `avfallsor`. Pick this one.
 
 ## Configuration options
 Key | Type | Required | Default | Description
@@ -32,21 +20,6 @@ The sensor tries to find the your address (to find the pickup dates for your add
 1. `street_id`
 2. `address`
 3. Lat and lon that you entered when you setup home assistant.
-
-### Yaml
-So minimal yaml example could be.
-````
-sensor:
-- platform: avfallsor
-````
-
-Full example.
-```
-sensor:
-- platform: avfallsor
-  address: "Kongeveien 1, Kristiansand"
-  street_id: c7b62b91-1f99-41a7-927d-5c3dc91805ca
-```
 
 ### Integrations
 - In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "avfallsor"
